@@ -157,8 +157,8 @@ int main(int argc, char *argv[])
    vec min_eig_values(num_eig);   //vector to store min eigvalues
    max_value= max(eig_values);
    for (int i=0; i<num_eig; i++){
-       min_eig_values(i) = min(eig_values);
        index = index_min(eig_values); //find index of minimum eig_value
+       min_eig_values(i) = eig_values(index);
        if (i==0){
            groundstate_index = index;  //save ground state index (will correspond to column in R where it occurs) to use for groundstate eigvector output
            groundstate_eigvector = R.col(groundstate_index);  //arma synthax: extract column vector from matrix R
