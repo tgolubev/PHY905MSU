@@ -105,13 +105,30 @@ int main(int argc, char *argv[])
    groundstate_eigvector = R.col(groundstate_index);  //arma synthax: extract column vector from matrix R
 
    //Find radius at which ground state eigvector (wavefnc) becomes small (rho_max)
-   for(int i=n-1; i>0; i--){
+   /*for(int i=n-1; i>0; i--){
        if(groundstate_eigvector(i) > 1.0E-6){
            rho_max = rho(i);
            cout <<"rho_max = " << rho_max << endl;
            break;              //once find rho_max, break out of the loop
        }
-   }
+   }*/
+  
+  //binary search
+  int start = 0, end = n-1, trial;
+  while(start < end) {
+    trial = floor((start+end)/2);
+    if(groundstate_eigvector(trial) >= 1.0E-6){
+      if(groundstate_eigvector(trial+1) < 1.0E-6){
+        rho_max = rho(trial);
+        cout <<"rho_max = " << rho_max << endl;
+        break;              //once find rho_max, break out of the loop
+      } else {
+        start = trial + 1;
+      }
+    } else {
+      end = trial;
+    }
+  }
 //-----------------------------------------------------------------------------------------------------------------------
 //Run again, using the new rho_max
 
